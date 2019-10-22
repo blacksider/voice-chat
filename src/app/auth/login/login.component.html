@@ -1,0 +1,29 @@
+<div class="login-page">
+  <div class="container">
+    <div class="form-outer text-center d-flex align-items-center">
+      <div class="form-inner">
+        <div class="logo">
+          <div class="logo-img"></div>&nbsp;
+          <span>聊天室</span>&nbsp;
+          <strong class="text-primary">登录</strong>
+        </div>
+        <br>
+        <form method="get" class="text-left form-validate" novalidate="novalidate" autocomplete="off">
+          <div class="form-group">
+            <input id="login-username" type="text" name="loginUsername" required
+                   placeholder="请输入登录名"
+                   class="form-control">
+          </div>
+          <div class="form-group">
+            <input id="login-password" type="password" name="loginPassword" required
+                   placeholder="请输入密码"
+                   class="form-control">
+          </div>
+          <div class="form-group text-center"><a id="login" href="javascript:;" class="btn btn-primary"
+                                                 (click)="doLogin()">登录</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
