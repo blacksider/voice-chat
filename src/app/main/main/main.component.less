@@ -60,6 +60,13 @@
       text-decoration: none;
       width: @sidebar-w;
       padding: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
+      &.active {
+        background-color: #c48047;
+      }
 
       &:hover {
         background-color: #dc904f;
@@ -70,4 +77,5 @@
 
 .content {
   margin-left: 100px;
+  height: 100%;
 }
