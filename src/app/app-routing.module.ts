@@ -4,7 +4,11 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {AuthValidatorService} from './auth/auth-validator.service';
 
 const routes: Routes = [
-  {path: 'login', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
+  {
+    path: 'login',
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    canActivate: [AuthValidatorService]
+  },
   {
     path: 'app',
     loadChildren: () => import('./main/main.module').then(m => m.MainModule),

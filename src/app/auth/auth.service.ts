@@ -6,7 +6,7 @@ import {AuthReq} from './auth-req';
 import {AuthInfo} from './auth-info';
 import {NgxPermissionsService} from 'ngx-permissions';
 import {Observable, of} from 'rxjs';
-import {catchError, switchMap, tap} from 'rxjs/operators';
+import {catchError, switchMap} from 'rxjs/operators';
 
 // must be provided in root module
 @Injectable({
@@ -15,7 +15,7 @@ import {catchError, switchMap, tap} from 'rxjs/operators';
 export class AuthService {
   authInfo: AuthInfo;
   redirectUrl: string;
-  authHeadName = 'X-Auth-Token';
+  authHeadName = 'Authorization';
   authCacheKey = 'Auth_Token';
 
   constructor(private http: HttpClient,
@@ -30,8 +30,9 @@ export class AuthService {
     return this.http.post('/api/auth/login', cloned, {observe: 'response'})
       .pipe(
         switchMap(res => {
+          console.log(res);
           if (!!res) {
-            const authToken = res.headers.get(this.authHeadName);
+            const authToken = res.body['token'];
             return this.localStorage.setItem(this.authCacheKey, authToken)
               .pipe(switchMap<boolean, Observable<AuthInfo>>(ret => {
                 return this.loginInfo();
@@ -44,7 +45,11 @@ export class AuthService {
   }
 
   loginInfo(): Observable<AuthInfo> {
-    return this.http.get<AuthInfo>('/api/auth/info')
+    return of({
+      username: 'admin',
+      authorities: []
+    });
+    /*return this.http.get<AuthInfo>('/api/auth/info')
       .pipe(
         tap(res => {
           if (!!res) {
@@ -57,7 +62,7 @@ export class AuthService {
           }
         }),
         catchError((err, caught) => of(null))
-      );
+      );*/
   }
 
   logout(): Observable<boolean> {
