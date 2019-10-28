@@ -3,8 +3,16 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {NgxPermissionsModule} from 'ngx-permissions';
+import {LocalInterceptor} from './auth/local-interceptor';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+const httpInterceptorProviders = [
+  {provide: HTTP_INTERCEPTORS, useClass: LocalInterceptor, multi: true},
+];
 
 @NgModule({
   declarations: [
@@ -13,10 +21,21 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      closeButton: true,
+      maxOpened: 3,
+      autoDismiss: true,
+      timeOut: 2000
+    }),
+    NgxPermissionsModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    httpInterceptorProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

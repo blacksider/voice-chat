@@ -4,26 +4,26 @@ export enum FromType {
 }
 
 export class ServerMessage {
-  From: string;
-  FromType: FromType;
-  Message: any;
-  Time: Date;
+  from: string;
+  fromType: FromType;
+  message: any;
+  time: Date;
 
   public static ofCurrentUser(message: string): ServerMessage {
     return {
-      From: 'me',
-      FromType: FromType.CURRENT_USER,
-      Message: message,
-      Time: new Date()
+      from: 'me',
+      fromType: FromType.CURRENT_USER,
+      message: message,
+      time: new Date()
     };
   }
 
   public static ofResponse(message: string): ServerMessage {
     return {
-      From: 'server',
-      FromType: FromType.RESPONSE,
-      Message: message,
-      Time: new Date()
+      from: 'server',
+      fromType: FromType.RESPONSE,
+      message: message,
+      time: new Date()
     };
   }
 }

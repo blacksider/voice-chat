@@ -8,9 +8,9 @@
       <a href="javascript:;" routerLink="/app/main" routerLinkActive="active"><i class="fa fa-home"></i>&nbsp;主页</a>
     </div>
     <div class="nav-item" *ngFor="let server of servers">
-      <a href="javascript:;" [routerLink]="'/app/server/' + server.Id" routerLinkActive="active"
-         title="{{server.Name}}">
-        {{server.Name}}
+      <a href="javascript:;" [routerLink]="'/app/server/' + server.id" routerLinkActive="active"
+         title="{{server.name}}">
+        {{server.name}}
       </a>
     </div>
   </div>

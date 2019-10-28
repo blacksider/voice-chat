@@ -1,11 +1,11 @@
 export class ServerInfo {
-  Id: string;
-  Name: string;
-  Description: string;
+  id: string;
+  name: string;
+  description: string;
 }
 
 export class ServerRoomInfo {
-  Id: string;
-  Name: string;
-  Description: string;
+  id: string;
+  name: string;
+  description: string;
 }

@@ -105,7 +105,7 @@ export class ServerRoomService {
   }
 
   connect(room: ServerRoomInfo): RxWebsocketSubject<ServerMessage> {
-    const url = `ws://${location.host}/ws/connect?room=` + room.Id;
+    const url = `ws://${location.host}/ws/connect?room=` + room.id;
     if (url === this.wsUrl) {
       if (!this.socket) {
         this.newConnection();

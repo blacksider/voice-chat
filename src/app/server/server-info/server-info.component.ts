@@ -39,7 +39,7 @@ export class ServerInfoComponent implements OnInit, OnDestroy {
   }
 
   loadRooms() {
-    this.svrService.listServerRooms(this.serverInfo.Id).subscribe(value => {
+    this.svrService.listServerRooms(this.serverInfo.id).subscribe(value => {
       this.rooms = value;
       if (this.rooms.length > 0) {
         this.connectTo(this.rooms[0]);

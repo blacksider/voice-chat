@@ -1,13 +1,13 @@
 <div class="main-container">
   <div class="container-left">
     <div class="head">
-      <h5 class="text-center">{{serverInfo.Name}}</h5>
+      <h5 class="text-center">{{serverInfo.name}}</h5>
     </div>
     <div class="body">
       <div class="room" *ngFor="let room of rooms"
            (click)="connectTo(room)"
            [ngClass]="{'active': isInRoom(room)}">
-        <span>{{room.Name}}</span>
+        <span>{{room.name}}</span>
       </div>
     </div>
   </div>
@@ -16,11 +16,11 @@
       <div *ngFor="let msg of messages">
         <div class="message">
           <div class="message-from">
-            <span class="user">{{msg.From}}</span>
-            <span class="time">{{msg.Time|date: 'yyyy-MM-dd HH:mm:ss'}}</span>
+            <span class="user">{{msg.from}}</span>
+            <span class="time">{{msg.time|date: 'yyyy-MM-dd HH:mm:ss'}}</span>
           </div>
           <div class="message-content">
-            {{msg.Message}}
+            {{msg.message}}
           </div>
         </div>
       </div>

@@ -38,6 +38,6 @@ export class AppComponent implements OnInit {
   }
 
   isElectron() {
-    return window && window['process'] && window['process'].FromType;
+    return window && window['process'] && window['process'].fromType;
   }
 }
