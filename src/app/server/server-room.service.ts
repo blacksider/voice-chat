@@ -4,6 +4,7 @@ import {WebSocketSubject, WebSocketSubjectConfig} from 'rxjs/webSocket';
 import {ServerRoomInfo} from './server-info';
 import {ServerMessage} from './server-message';
 import {distinctUntilChanged, share, takeWhile} from 'rxjs/operators';
+import {AuthService} from '../auth/auth.service';
 
 export class RxWebsocketSubject<T> extends Subject<T> {
   private reconnectionObservable: Observable<number>;
@@ -14,6 +15,7 @@ export class RxWebsocketSubject<T> extends Subject<T> {
 
   constructor(
     private url: string,
+    private authService: AuthService,
     private reconnectInterval: number = 5000,
     private reconnectAttempts: number = 10) {
     super();
@@ -47,16 +49,23 @@ export class RxWebsocketSubject<T> extends Subject<T> {
   }
 
   connect(): void {
-    this.socket = new WebSocketSubject(this.wsSubjectConfig);
-    this.socket.subscribe(
-      (m) => {
-        this.next(m);
-      },
-      () => {
-        if (!this.socket) {
-          this.reconnect();
-        }
-      });
+    this.authService.getAuthorizationToken().subscribe(token => {
+      if (!!token) {
+        const config = Object.assign({}, this.wsSubjectConfig, {
+          url: `${this.wsSubjectConfig.url}&${this.authService.authHeadName}=${token}`
+        });
+        this.socket = new WebSocketSubject(config);
+        this.socket.subscribe(
+          (m) => {
+            this.next(m);
+          },
+          () => {
+            if (!this.socket) {
+              this.reconnect();
+            }
+          });
+      }
+    });
   }
 
   reconnect(): void {
@@ -87,12 +96,11 @@ export class RxWebsocketSubject<T> extends Subject<T> {
   close() {
     this.complete();
     this.connectionObserver.complete();
-    this.socket.unsubscribe();
+    if (this.socket) {
+      this.socket.unsubscribe();
+    }
     this.unsubscribe();
   }
-}
-
-export class ConnectionAlreadyOpen extends Error {
 }
 
 @Injectable()
@@ -101,7 +109,7 @@ export class ServerRoomService {
   private connected: boolean;
   private socket: RxWebsocketSubject<ServerMessage>;
 
-  constructor() {
+  constructor(private authService: AuthService) {
   }
 
   connect(room: ServerRoomInfo): RxWebsocketSubject<ServerMessage> {
@@ -123,7 +131,7 @@ export class ServerRoomService {
   }
 
   private newConnection() {
-    this.socket = new RxWebsocketSubject<ServerMessage>(this.wsUrl);
+    this.socket = new RxWebsocketSubject<ServerMessage>(this.wsUrl, this.authService);
     this.socket.connectionStatus.subscribe(connected => {
       this.connected = connected;
     });

@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {ServerInfoService} from '../server-info.service';
 import {ActivatedRoute} from '@angular/router';
-import {ServerInfo, ServerRoomInfo} from '../server-info';
+import {ServerInfo, ServerRoomInfo, ServerRoomUser} from '../server-info';
 import {RxWebsocketSubject, ServerRoomService} from '../server-room.service';
 import {ServerMessage} from '../server-message';
 
@@ -16,7 +16,8 @@ export class ServerInfoComponent implements OnInit, OnDestroy {
   serverInfo: ServerInfo;
   rooms: ServerRoomInfo[];
   wsClient: RxWebsocketSubject<any>;
-  private currentRoom: ServerRoomInfo;
+  currentRoom: ServerRoomInfo;
+  currentRoomUsers: ServerRoomUser[] = [];
   connected = this.svrRoomService.isConnected;
   messages: ServerMessage[] = [];
 

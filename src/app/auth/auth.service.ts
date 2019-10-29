@@ -6,7 +6,7 @@ import {AuthReq} from './auth-req';
 import {AuthInfo} from './auth-info';
 import {NgxPermissionsService} from 'ngx-permissions';
 import {Observable, of} from 'rxjs';
-import {catchError, switchMap} from 'rxjs/operators';
+import {catchError, switchMap, tap} from 'rxjs/operators';
 
 // must be provided in root module
 @Injectable({
@@ -45,11 +45,7 @@ export class AuthService {
   }
 
   loginInfo(): Observable<AuthInfo> {
-    return of({
-      username: 'admin',
-      authorities: []
-    });
-    /*return this.http.get<AuthInfo>('/api/auth/info')
+    return this.http.get<AuthInfo>('/api/auth/info')
       .pipe(
         tap(res => {
           if (!!res) {
@@ -62,7 +58,7 @@ export class AuthService {
           }
         }),
         catchError((err, caught) => of(null))
-      );*/
+      );
   }
 
   logout(): Observable<boolean> {

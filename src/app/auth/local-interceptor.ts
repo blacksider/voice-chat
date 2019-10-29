@@ -39,7 +39,6 @@ export class LocalInterceptor implements HttpInterceptor {
       }, (err: HttpErrorResponse) => {
         switch (err.status) {
           case 400:
-            this.toastr.error(err.error.message);
             break;
           case 401:
             authService.removeAuthorizationToken().subscribe(_ => {

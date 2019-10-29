@@ -9,3 +9,8 @@ export class ServerRoomInfo {
   name: string;
   description: string;
 }
+
+export class ServerRoomUser {
+  id: number;
+  name: string;
+}
